@@ -1,0 +1,22 @@
+{
+  "name": "job-board-server",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --ignore data/ server.js"
+  },
+  "dependencies": {
+    "apollo-server": "^2.4.8",
+    "apollo-server-express": "^2.4.8",
+    "basic-auth": "^2.0.1",
+    "body-parser": "1.18.2",
+    "cors": "2.8.4",
+    "cuid": "^2.1.6",
+    "express": "4.16.3",
+    "express-jwt": "5.3.1",
+    "graphql": "^14.1.1",
+    "jsonwebtoken": "8.2.0",
+    "notarealdb": "0.2.2"
+  },
+  "devDependencies": {}
+}
