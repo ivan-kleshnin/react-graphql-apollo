@@ -33,21 +33,29 @@ module.exports = {
       if (!user) {
         throw new AuthenticationError("Not Authorized")
       }
-      let id = db.jobs.create(input)
+      let id = db.jobs.create({...input, userId: user.id})
       let job = db.jobs.get(id)
       return job
     },
   },
 
   Job: {
-    company(job, args, {db}) {
+    company(job, {}, {db}) {
       return db.companies.get(job.companyId)
-    }
+    },
+
+    user(job, {}, {db}) {
+      return db.users.get(job.userId)
+    },
   },
 
   Company: {
     jobs(company, {}, {db}) {
       return db.jobs.list().filter(job => job.companyId == company.id)
+    },
+
+    users(company, {}, {db}) {
+      return db.users.list().filter(user => user.id == company.userId)
     }
   }
 }

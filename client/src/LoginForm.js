@@ -3,9 +3,8 @@ import * as requests from "./requests"
 
 export class LoginForm extends React.Component {
   state = {
-    email: "",
+    email: "alice@facegle.io",
     password: "",
-    error: false
   }
 
   handleChange = (event) => {
@@ -13,19 +12,18 @@ export class LoginForm extends React.Component {
     this.setState({[name]: value})
   }
 
-  handleClick = (event) => {
+  handleClick = async (event) => {
     let {email, password} = this.state
-    requests.login(email, password)/*.then(token => {
-      if (token) {
-        this.props.onLogin(token)
-      } else {
-        this.setState({error: true})
-      }
-    })*/
+    try {
+      var user = await requests.login(email, password)
+    } catch (err) {
+      return alert(err.message)
+    }
+    this.props.onLogin(user)
   }
 
   render() {
-    let {email, password, error} = this.state
+    let {email, password} = this.state
     return <form>
       <div className="field">
         <label className="label">Email</label>
@@ -43,7 +41,7 @@ export class LoginForm extends React.Component {
       </div>
       <div className="field">
         <p className="help is-danger">
-          {error && "Invalid credentials"}
+          {/*error && "Invalid credentials"*/}
         </p>
         <div className="control">
           <button type="button" className="button is-link" onClick={this.handleClick}>

@@ -1,6 +1,30 @@
 let {gql} = require("apollo-server")
 
 module.exports = gql`
+  type User {
+    id: ID!
+    email: String!
+    password: String!
+    fullname: String!
+    companyId: ID!
+  }
+  
+  type Company {
+    id: ID!
+    name: String!
+    description: String!
+    jobs: [Job!]!
+    users: [User!]!
+  }
+  
+  type Job {
+    id: ID! 
+    title: String!
+    description: String!
+    company: Company!
+    user: User!
+  }
+  
   type Query {
     hello: String!
     company(id: ID!): Company!
@@ -16,19 +40,5 @@ module.exports = gql`
     companyId: ID!
     title: String!
     description: String!
-  }
-  
-  type Company {
-    id: ID!
-    name: String!
-    description: String!
-    jobs: [Job!]!
-  }
-  
-  type Job {
-    id: ID! 
-    title: String!
-    description: String!
-    company: Company!
   }
 `

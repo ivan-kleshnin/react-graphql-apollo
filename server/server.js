@@ -1,55 +1,53 @@
-let HTTP = require("http")
-let CookieSession = require("cookie-session")
-let Cors = require("cors")
-let BodyParser = require("body-parser")
-let CookieParser = require("cookie-parser")
-let Express = require("express")
-let Path = require("path")
-let Passport = require("passport")
 let {ApolloServer} = require("apollo-server-express")
+let Cors = require("cors")
+let Express = require("express")
+let HTTP = require("http")
+let Passport = require("passport")
+let Path = require("path")
 let db = require("./db")
 let schema = require("./schema")
 let resolvers = require("./resolvers")
-let authRouter = require("./auth")
+let {router: authRouter, authenticate} = require("./auth")
 
 let PORT = 9000
 
 let app = Express()
 
-app.use("/public", Express.static(Path.resolve(__dirname, "../public")))
-app.use(Cors({
-  origin: "http://localhost:3000",
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-  credentials: true,
-}))
-app.use(BodyParser.urlencoded({extended: true}))
-app.use(BodyParser.json({}))
+app.use(Cors())
+// app.use(Cors({ -- no need
+//   origin: "http://localhost:3000",
+//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   credentials: true,
+// }))
+// app.use(CookieParser()) -- no need
+// app.use(CookieSession({ -- no need
+//   name: "session",
+//   secret: "xxx",
+//   // Cookie options
+//   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//   httpOnly: true,
+//   signed: true,
+// }))
 
-app.use(CookieParser())
-app.use(CookieSession({
-  name: "session",
-  secret: "xxx",
-  // Cookie options
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  httpOnly: true,
-  signed: true,
-}))
-
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.originalUrl}`)
-  console.log("body:", req.body)
-  // console.log("req.session:", req.session)
-  next()
-})
+// Log all requests
+// app.use((req, res, next) => {
+//   console.log(`${req.method} ${req.originalUrl}`)
+//   console.log("body:", req.body)
+//   next()
+// })
 
 app.use(Passport.initialize())
-app.use(Passport.session())
+// app.use(Passport.session()) -- no need
 app.use(authRouter)
+
+app.use(authenticate)
 
 let server = new ApolloServer({
   typeDefs: schema,
   resolvers,
   context({req}) {
+    console.log("@ ApolloServer.context")
+    console.log("req.user:", req.user)
     let ctx = {
       user: req.user,
       db: db,
@@ -81,6 +79,3 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`)
 })
-
-// Cookie: session=eyJwYXNzcG9ydCI6eyJ1c2VyIjoiQkpycC1EdWRHIn19; session.sig=xcGdw0pPxVXVYMdxHofx-HwYJAk
-//         session=eyJwYXNzcG9ydCI6eyJ1c2VyIjoiQkpycC1EdWRHIn19; session.sig=MPaLnWmqvJO4fuTuv3mgx2WZZms

@@ -3,30 +3,28 @@
     "id": "rJKAbDd_z",
     "companyId": "HJRa-DOuG",
     "title": "Frontend Developer",
-    "description": "We are looking for a Frontend Developer familiar with React."
+    "description": "We are looking for a Frontend Developer familiar with React.",
+    "userId": "BJrp-DudG"
   },
   {
     "id": "SJRAZDu_z",
     "companyId": "HJRa-DOuG",
     "title": "Backend Developer",
-    "description": "We are looking for a Backend Developer familiar with Node.js and Express."
+    "description": "We are looking for a Backend Developer familiar with Node.js and Express.",
+    "userId": "BJrp-DudG"
   },
   {
     "id": "rkz1GwOOM",
     "companyId": "SJV0-wdOM",
     "title": "Full-Stack Developer",
-    "description": "We are looking for a Full-Stack Developer familiar with Node.js, Express, and React."
+    "description": "We are looking for a Full-Stack Developer familiar with Node.js, Express, and React.",
+    "userId": "BJrp-DudG"
   },
   {
-    "id": "H1HOao8_E",
+    "id": "H1Qz8gY_E",
     "companyId": "SJV0-wdOM",
-    "title": "sdfdsf",
-    "description": "sdf"
-  },
-  {
-    "id": "S1ugCsUuN",
-    "companyId": "SJV0-wdOM",
-    "title": "sdfsdf",
-    "description": "sdfdsf"
+    "title": "sdfs",
+    "description": "dsfdsf",
+    "userId": "BJrp-DudG"
   }
 ]

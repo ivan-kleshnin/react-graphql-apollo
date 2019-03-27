@@ -12,12 +12,15 @@ export class JobForm extends React.Component {
     this.setState({[name]: value})
   }
 
-  handleClick = (event) => {
-    let job = {...this.state, companyId: "SJV0-wdOM"}
+  handleClick = async (event) => {
+    let input = {...this.state, companyId: "SJV0-wdOM"}
     let {me} = this.props
-    requests.createJob(me, job).then(job => {
-      this.props.history.push(`/jobs/${job.id}`)
-    })
+    try {
+      var job = await requests.createJob(me, input)
+    } catch (err) {
+      return alert(err.message)
+    }
+    this.props.history.push(`/jobs/${job.id}`)
   }
 
   render() {

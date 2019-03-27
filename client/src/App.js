@@ -1,20 +1,20 @@
-import React from 'react'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import {CompanyDetail} from './CompanyDetail'
-import {LoginForm} from './LoginForm'
-import {JobBoard} from './JobBoard'
-import {JobDetail} from './JobDetail'
-import {JobForm} from './JobForm'
-import {NavBar} from './NavBar'
+import React from "react"
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
+import {CompanyDetail} from "./CompanyDetail"
+import {LoginForm} from "./LoginForm"
+import {JobBoard} from "./JobBoard"
+import {JobDetail} from "./JobDetail"
+import {JobForm} from "./JobForm"
+import {NavBar} from "./NavBar"
 
-const AUTH_KEY = "accessToken"
+let AUTH_KEY = "auth"
 
 function getSession() {
-  return localStorage.getItem(AUTH_KEY)
+  return JSON.parse(localStorage.getItem(AUTH_KEY))
 }
 
-function createSession(token) {
-  localStorage.setItem(AUTH_KEY, token)
+function createSession(me) {
+  localStorage.setItem(AUTH_KEY, JSON.stringify(me))
 }
 
 function destroySession() {
@@ -24,26 +24,27 @@ function destroySession() {
 export class App extends React.Component {
   constructor(props) {
     super(props)
-    let token = getSession()
-    this.state = {
-      me: token ? {token}: null,
-    }
+    let me = getSession()
+    this.state = {me}
   }
 
-  handleLogin = (token) => {
-    createSession(token)
-    this.setState({me: {token}})
-    this.router.history.push('/')
+  handleLogin = (user) => {
+    console.log("@ handleLogin, user =", user)
+    createSession(user)
+    this.setState({me: user})
+    this.router.history.push("/")
   }
 
   handleLogout = () => {
+    console.log("@ handleLogout")
     destroySession()
     this.setState({me: null})
-    this.router.history.push('/')
+    this.router.history.push("/")
   }
 
   render() {
     const {me} = this.state
+    console.log("@ App.render, me =", me)
     return <Router ref={(router) => this.router = router}>
       <div>
         <NavBar loggedIn={Boolean(me)} onLogout={this.handleLogout} />
