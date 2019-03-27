@@ -2,6 +2,11 @@ let {AuthenticationError} = require("apollo-server")
 
 module.exports = {
   Query: {
+    hello(_, __, {user}) {
+      let username = user ? user.fullname || user.email : "Guest"
+      return `Hello ${username}!`
+    },
+
     company(_, {id}, {db}) {
       let company = db.companies.get(id) //
       if (!company) {
@@ -28,22 +33,10 @@ module.exports = {
       if (!user) {
         throw new AuthenticationError("Not Authorized")
       }
-
       let id = db.jobs.create(input)
       let job = db.jobs.get(id)
       return job
     },
-
-    login(_, {email, password}, {db}) {
-      let user = db.users.list().find(user => {
-        return user.email == email && user.password == password
-      })
-      if (!user) {
-        throw new Error("Invalid Credentials")
-      }
-      // if (!user) return null
-      return Buffer.from(email + ":" + password).toString("base64") // token
-    }
   },
 
   Job: {

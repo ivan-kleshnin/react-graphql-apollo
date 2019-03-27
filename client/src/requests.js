@@ -77,8 +77,16 @@ export async function createJob(user, input) {
 }
 
 export async function login(email, password) {
-  let {login} = await fetchAPI({}, `mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password)
-  }`, {email, password})
-  return login
+  let response = await fetch("http://localhost:9000/signin", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({email, password}),
+  })
+  let user = await response.json()
+  console.log(user)
+  // return login
 }

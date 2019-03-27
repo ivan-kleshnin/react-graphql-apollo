@@ -3,12 +3,14 @@
     "id": "BJrp-DudG",
     "email": "alice@facegle.io",
     "password": "alice123",
+    "fullname": "Alice",
     "companyId": "HJRa-DOuG"
   },
   {
     "id": "ry9pbwdOz",
     "email": "bob@goobook.co",
     "password": "bob123",
+    "fullname": "Bob",
     "companyId": "SJV0-wdOM"
   }
 ]

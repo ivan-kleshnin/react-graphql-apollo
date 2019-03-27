@@ -1,0 +1,26 @@
+{
+  "ca6b0b4423": {
+    "id": "BJrp-DudG",
+    "role": "contributor",
+    "email": "alice@facegle.io",
+    "password": "alice123",
+    "displayName": "Jack",
+    "provider": "local"
+  },
+  "a95ada8188": {
+    "id": "a95ada8188",
+    "role": "contributor",
+    "email": "jill@example.com",
+    "password": "Birthday",
+    "displayName": "Jill",
+    "provider": "local"
+  },
+  "446682ad11": {
+    "email": "jazz@example.com",
+    "password": "Jazz",
+    "displayName": "Jazz",
+    "id": "446682ad11",
+    "role": "contributor",
+    "provider": "local"
+  }
+}

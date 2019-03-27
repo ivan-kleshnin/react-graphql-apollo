@@ -2,6 +2,7 @@ let {gql} = require("apollo-server")
 
 module.exports = gql`
   type Query {
+    hello: String!
     company(id: ID!): Company!
     job(id: ID!): Job!
     jobs: [Job!]!
@@ -9,7 +10,6 @@ module.exports = gql`
   
   type Mutation {
     createJob(input: CreateJobInput): Job!
-    login(email: String!, password: String!): String!
   }
   
   input CreateJobInput {
