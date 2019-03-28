@@ -1,18 +1,20 @@
 import React from "react"
 import * as requests from "./requests"
+import {withContext} from "./AppContext"
 
-export class JobForm extends React.Component {
+export default withContext(class JobForm extends React.Component {
   state = {
     title: "",
     description: ""
   }
 
   handleChange = (event) => {
-    const {name, value} = event.target
+    let {name, value} = event.target
     this.setState({[name]: value})
   }
 
   handleClick = async (event) => {
+    let {history} = this.props
     let input = {...this.state, companyId: "SJV0-wdOM"}
     let {me} = this.props
     try {
@@ -20,11 +22,11 @@ export class JobForm extends React.Component {
     } catch (err) {
       return alert(err.message)
     }
-    this.props.history.push(`/jobs/${job.id}`)
+    history.push(`/jobs/${job.id}`)
   }
 
   render() {
-    const {title, description} = this.state
+    let {title, description} = this.state
     return <div>
       <h1 className="title">New Job</h1>
       <div className="box">
@@ -54,4 +56,4 @@ export class JobForm extends React.Component {
       </div>
     </div>
   }
-}
+})

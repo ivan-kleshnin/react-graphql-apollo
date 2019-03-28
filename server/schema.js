@@ -28,6 +28,7 @@ module.exports = gql`
   type Query {
     hello: String!
     company(id: ID!): Company!
+    companies: [Company!]!
     job(id: ID!): Job!
     jobs: [Job!]!
   }

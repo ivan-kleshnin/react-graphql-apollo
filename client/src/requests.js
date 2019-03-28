@@ -34,6 +34,16 @@ export async function loadCompany(user, id) {
   return company
 }
 
+export async function loadCompanies(user) {
+  let {companies} = await fetchAPI(user, `query {
+    companies {
+      id
+      name
+    }
+  }`)
+  return companies
+}
+
 export async function loadJob(user, id) {
   let {job} = await fetchAPI(user, `query ($id: ID!) {
     job(id: $id) {

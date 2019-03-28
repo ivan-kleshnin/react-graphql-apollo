@@ -39,7 +39,6 @@ app.use(Cors())
 app.use(Passport.initialize())
 // app.use(Passport.session()) -- no need
 app.use(authRouter)
-
 app.use(authenticate)
 
 let server = new ApolloServer({

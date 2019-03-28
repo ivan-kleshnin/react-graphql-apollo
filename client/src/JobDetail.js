@@ -1,15 +1,17 @@
 import React from "react"
 import {Link} from "react-router-dom"
+import {withContext} from "./AppContext"
 import * as requests from "./requests"
 
-export class JobDetail extends React.Component {
+export default withContext(class JobDetail extends React.Component {
   state = {
     job: null,
   }
 
   async componentDidMount() {
-    let {id} = this.props.match.params
-    let {me} = this.props
+    // console.log("@ JobDetail.componentDidMount")
+    let {match, me} = this.props
+    let {id} = match.params
     let job = await requests.loadJob(me, id)
     this.setState({job})
   }
@@ -27,4 +29,4 @@ export class JobDetail extends React.Component {
       <div className="box">{job.description}</div>
     </div>
   }
-}
+})

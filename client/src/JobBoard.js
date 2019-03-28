@@ -1,13 +1,15 @@
-import React, {Component} from "react"
+import React from "react"
 import {Link} from "react-router-dom"
+import {withContext} from "./AppContext"
 import * as requests from "./requests"
 
-export class JobBoard extends Component {
+export default withContext(class JobBoard extends React.Component {
   state = {
-    jobs: []
+    jobs: [],
   }
 
   async componentDidMount() {
+    // console.log("@ JobBoard.componentDidMount")
     let {me} = this.props
     let jobs = await requests.loadJobs(me)
     this.setState({jobs})
@@ -17,10 +19,11 @@ export class JobBoard extends Component {
     let {jobs} = this.state
     return <div>
       <h1 className="title">Job Board</h1>
-      <JobList jobs={jobs} />
+      <JobList jobs={jobs}/>
+      <Link to="/jobs/new">Post a Job</Link>
     </div>
   }
-}
+})
 
 function JobList({jobs}) {
   return <ul className="box">

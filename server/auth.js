@@ -29,7 +29,6 @@ Passport.use("jwt", new JwtStrategy(jwtOpts, async (payload, next) => {
   console.log("@ [jwt] verify")
   console.log("payload:", payload)
   let user = db.users.get(payload.user.id)
-  console.log("user !!!:", user)
   next(null, user) // use 3rd argument to pass extra info like `{message: 'Incorrect password'}`
 }))
 
@@ -117,7 +116,12 @@ router.post("/login",
 // })
 
 let authenticate = (req, res, next) => {
+  console.log("@ pre auth")
   Passport.authenticate("jwt", {session: false}, (err, user, info) => {
+    // console.log("err:", err)
+    // console.log("user:", user)
+    // console.log("info:", info) // TODO handle `err` and `info` properly
+    console.log("@ post auth")
     req.user = user || null
     next()
   })(req, res, next)

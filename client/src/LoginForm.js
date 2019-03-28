@@ -1,7 +1,8 @@
 import React from "react"
 import * as requests from "./requests"
+import {withContext} from "./AppContext"
 
-export class LoginForm extends React.Component {
+export default withContext(class LoginForm extends React.Component {
   state = {
     email: "alice@facegle.io",
     password: "",
@@ -13,13 +14,14 @@ export class LoginForm extends React.Component {
   }
 
   handleClick = async (event) => {
+    let {login} = this.props
     let {email, password} = this.state
     try {
       var user = await requests.login(email, password)
     } catch (err) {
       return alert(err.message)
     }
-    this.props.onLogin(user)
+    login(user)
   }
 
   render() {
@@ -51,4 +53,4 @@ export class LoginForm extends React.Component {
       </div>
     </form>
   }
-}
+})

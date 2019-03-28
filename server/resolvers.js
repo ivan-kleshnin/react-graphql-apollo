@@ -15,6 +15,10 @@ module.exports = {
       return company
     },
 
+    companies(_, args, {db}) {
+      return db.companies.list()
+    },
+
     job(_, {id}, {db}) {
       let job = db.jobs.get(id)
       if (!job) {
@@ -23,7 +27,7 @@ module.exports = {
       return job
     },
 
-    jobs(_, args, {db, user}) {
+    jobs(_, args, {db}) {
       return db.jobs.list()
     },
   },
