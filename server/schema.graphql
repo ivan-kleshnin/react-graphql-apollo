@@ -1,0 +1,95 @@
+# Step-0 ###########################################################################################
+# User +role
+# Company
+# Job
+
+# Step-1 ###########################################################################################
+# User -[:CREATED]-> Company (1:n)
+# User -[:CREATED]-> Job (1:n)
+# User -[:APPLIED]-> Job (m:n)
+# Company -[:EMPLOYS]-> User (1:n)
+# Company -[:HAS]-> Job (1:n)
+
+# Step-2 ###########################################################################################
+# User -[:CREATED]-> Company (1:n)
+#   User.createdCompanies [Company!]!
+#   Company.createdBy User!
+# == users.id --> companies.createdByUserId
+
+# User -[:CREATED]-> Job (1:n)
+#   User.createdJobs [Job!]!
+#   Job.createdBy User!
+# == users.id --> jobs.createdByUserId
+
+# Company -[:EMPLOYS]-> User (1:n)
+#   Company.employees [User!]!
+#   User.employedBy Company
+# == companies.id -> users.employedByCompanyId
+
+# Company -[:HAS]-> Job (1:n)
+#   Company.jobs :: [Job!]!
+#   Job.company :: Company!
+# == companies.id -> jobs.companyId
+
+# User -[:APPLIED]-> Job (m:n)
+#   User.appliedTo :: [Job!]!
+#   Job.applicants :: [User!]!
+# == users.id --> applications.userId
+# == jobs.id --> applications.jobId
+
+# Step-3
+type User {
+  id: ID!
+  email: String!
+  password: String!
+  fullname: String!
+  createdCompanies: [Company!]! # from `company.createdByUserId`
+  createdJobs: [Job!]!          # from `job.createdByUserId`
+  employedBy: Company          # from `user.employedByCompanyId`
+  appliedTo: [Job!]!           # from `applicants.userId`
+}
+
+type Company {
+  id: ID!
+  name: String!
+  description: String!
+  createdBy: User!      # from `company.createdByUserId`
+  employees: [User!]!  # from `user.employedByCompanyId`
+  jobs: [Job!]!        # from `job.companyId`
+}
+
+type Job {
+  id: ID!
+  title: String!
+  description: String!
+  createdBy: User!       # from `job.createdByUserId`
+  company: Company!     # from `job.companyId`
+  applicants: [User!]!  # from `applicants.jobId`
+}
+
+type Query {
+  hello: String!
+
+  company(id: ID!): Company!
+  companies: [Company!]!
+  job(id: ID!): Job!
+  jobs: [Job!]!
+  user(id: ID!): User!
+  users: [User!]!
+}
+
+type Mutation {
+  createJob(input: CreateJobInput!): Job!
+  createCompany(input: CreateCompanyInput!): Company!
+}
+
+input CreateJobInput {
+  companyId: ID!
+  title: String!
+  description: String!
+}
+
+input CreateCompanyInput {
+  name: String!
+  description: String!
+}

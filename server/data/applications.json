@@ -1,0 +1,14 @@
+[
+  {
+    "userId": "t1",
+    "jobId": "1"
+  },
+  {
+    "userId": "t1",
+    "jobId": "2"
+  },
+  {
+    "userId": "t2",
+    "jobId": "1"
+  }
+]

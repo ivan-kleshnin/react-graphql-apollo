@@ -13,7 +13,7 @@ let localOpts = {
 }
 
 Passport.use("local", new LocalStrategy(localOpts, async (email, password, done) => {
-  console.log("@ [local] verify")
+  // console.log("@ [local] verify")
   let user = db.users.list().find(user => {
     return user.email == email && user.password== password
   }) || null
@@ -26,8 +26,8 @@ let jwtOpts = {
 }
 
 Passport.use("jwt", new JwtStrategy(jwtOpts, async (payload, next) => {
-  console.log("@ [jwt] verify")
-  console.log("payload:", payload)
+  // console.log("@ [jwt] verify")
+  // console.log("payload:", payload)
   let user = db.users.get(payload.user.id)
   next(null, user) // use 3rd argument to pass extra info like `{message: 'Incorrect password'}`
 }))
@@ -56,9 +56,9 @@ let router = Router({
 router.post("/login",
   BodyParser.json(),
   async (req, res, next) => {
-    console.log("@ [local] login preVerify")
+    // console.log("@ [local] login preVerify")
     Passport.authenticate("local", {session: false}, async (err, user, info) => {
-      console.log("@ [local] login postVerify")
+      // console.log("@ [local] login postVerify")
       console.log("err:", err)
       console.log("user:", user)
       console.log("info:", info)
@@ -116,12 +116,12 @@ router.post("/login",
 // })
 
 let authenticate = (req, res, next) => {
-  console.log("@ pre auth")
+  // console.log("@ pre auth")
   Passport.authenticate("jwt", {session: false}, (err, user, info) => {
     // console.log("err:", err)
     // console.log("user:", user)
     // console.log("info:", info) // TODO handle `err` and `info` properly
-    console.log("@ post auth")
+    // console.log("@ post auth")
     req.user = user || null
     next()
   })(req, res, next)
